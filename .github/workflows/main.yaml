@@ -1,0 +1,19 @@
+name: Manually triggered workflow
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'Release or Promote'
+        required: true
+        default: 'Release'
+      version:
+        description: 'Version to release'
+        required: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Hello ${{ github.event.inputs.type }}!"
+          echo "- in ${{ github.event.inputs.version }}!"
