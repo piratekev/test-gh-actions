@@ -8,37 +8,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Slack Notification
-      if: job.status == 'success'
       uses: rtCamp/action-slack-notify@v2
       env:
+        JOB_STATUS: ${{ job.status }}
         SLACK_CHANNEL: deployments
         SLACK_COLOR: ${{ job.status }}
         SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        SLACK_MESSAGE: test message
-        SLACK_TITLE: success
-        SLACK_USERNAME: github
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        
-    - name: Slack Notification failure
-      uses: rtCamp/action-slack-notify@v2
-      if: job.status == 'failure'
-      env:
-        SLACK_CHANNEL: deployments
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        SLACK_MESSAGE: test message
-        SLACK_TITLE: failure
-        SLACK_USERNAME: github
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        
-    - name: Slack Notification cancelled
-      uses: rtCamp/action-slack-notify@v2
-      if: job.status == 'cancelled'
-      env:
-        SLACK_CHANNEL: deployments
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        SLACK_MESSAGE: test message
-        SLACK_TITLE: cancelled
+        SLACK_MESSAGE: status - "$JOB_STATUS"
+        SLACK_TITLE: test message
         SLACK_USERNAME: github
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
