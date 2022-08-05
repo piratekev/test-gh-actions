@@ -41,9 +41,9 @@ jobs:
             
           # Verify branch name match version of tag pushed
         - name: Verify params for submit build
-          if: ${{ github.ref_type == 'tag' }}
+          if: ${{ github.ref_type == 'tag' && steps.branch_version_step.outputs.branch_version != steps.tag_version_step.outputs.tag_version }}
           run: |
-            [[ $tag_version = $branch_version ]] && exit 0 || exit 1;
+            exit 1
 
   log-github-info:
     runs-on: ubuntu-latest
