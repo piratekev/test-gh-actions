@@ -38,7 +38,7 @@ jobs:
             tag_version_hotfix=$(echo ${{ github.ref_name }} | cut -dv -f2)
             tag_version=$(echo $tag_version_hotfix | cut -d_ -f1)
             hotfix_version=$(echo $tag_version_hotfix | cut -d_ -f2)
-            prev_hotfix_version=$($hotfix_version - 1)
+            prev_hotfix_version=$(($hotfix_version - 1))
             prev_tag_version="v$tag_version"
             prev_tag_version+="_$prev_hotfix_version"
             echo "::set-output name=tag_version::$tag_version"
