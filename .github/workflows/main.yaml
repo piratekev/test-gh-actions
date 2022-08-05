@@ -60,7 +60,7 @@ jobs:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Verify previous hotfix tag exists
-          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 && !steps.checkTag.outputs.exists }} 
+          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 && steps.checkTag.outputs.exists == 'false' }} 
           run: |
             exit 1
 
