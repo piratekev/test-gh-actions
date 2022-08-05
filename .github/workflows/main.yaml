@@ -53,6 +53,8 @@ jobs:
         id: checkTag
         with: 
           tag: 'v1.0.1_7'
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: echo ${{ steps.checkTag.outputs.exists }}
       
@@ -61,5 +63,8 @@ jobs:
         id: checkTagAgain
         with: 
           tag: 'v1.0.1_11'
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
 
       - run: echo ${{ steps.checkTagAgain.outputs.exists }}
