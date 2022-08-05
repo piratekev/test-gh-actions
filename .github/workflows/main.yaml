@@ -1,18 +1,14 @@
 name: Manually triggered workflow
-on: 
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'warning' 
-        type: choice
-        options:
-        - info
-        - warning
-        - debug 
+on:
+  push:
+    branches:
+      - 'release-*'
+    tags:
+      - '*'
+
+
 jobs:
-  log-the-inputs:
+  log-github-info:
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - run: echo ${{ github.ref }} ${{ github.ref_name }}
