@@ -43,18 +43,23 @@ jobs:
             prev_tag_version+="_$prev_hotfix_version"
             echo "tag_version is $tag_version."
             echo "hotfix_version is $hotfix_version."
-            echo "::set-output name=prev_tag_version::$prev_tag_version"
             echo "prev_tag_version is $prev_tag_version."
+            echo "::set-output name=hotfix_version::$hotfix_version"
+            echo "::set-output name=tag_version::$tag_version"
+            echo "::set-output name=prev_tag_version::$prev_tag_version"
             
             
         - uses: mukunku/tag-exists-action@v1.0.0
+          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 }}
           id: checkTag
           with: 
             tag: ${{ steps.tag_version_step.outputs.prev_tag_version }}
           env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        - run: echo ${{ steps.checkTag.outputs.exists }}
+        - name: Check tag output
+          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 }}
+          run: echo ${{ steps.checkTag.outputs.exists }}
 
   log-github-info:
     runs-on: ubuntu-latest
