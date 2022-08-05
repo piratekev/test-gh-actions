@@ -44,7 +44,7 @@ jobs:
             echo "hotfix_version is $hotfix_version."
             echo "::set-output name=prev_hotfix_version::$(($hotfix_version-1))"
             echo "prev_hotfix_version is $prev_hotfix_version."
-            echo "::set-output name=prev_tag_version::${{ join('v', tag_version, prev_hotfix_version) }}"
+            echo "::set-output name=prev_tag_version::join('v', $tag_version, $prev_hotfix_version)"
             echo "prev_tag_version is $prev_tag_version."
             
             
