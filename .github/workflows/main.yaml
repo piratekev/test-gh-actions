@@ -49,17 +49,20 @@ jobs:
             echo "::set-output name=prev_tag_version::$prev_tag_version"
             
             
-        - uses: mukunku/tag-exists-action@v1.0.0
+        # Check for previous hotfix version
+        - name: Search for previous hotfix version
           if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 }}
+          uses: mukunku/tag-exists-action@v1.0.0
           id: checkTag
           with: 
             tag: ${{ steps.tag_version_step.outputs.prev_tag_version }}
           env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Check tag output
-          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 }}
-          run: echo ${{ steps.checkTag.outputs.exists }}
+        - name: Verify previous hotfix tag exists
+          if: ${{ steps.tag_version_step.outputs.hotfix_version != 1 && !steps.checkTag.outputs.exists }} 
+          run: |
+            exit 1
 
   log-github-info:
     runs-on: ubuntu-latest
