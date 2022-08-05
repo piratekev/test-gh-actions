@@ -10,8 +10,6 @@ on:
 jobs:
   check:
       runs-on: ubuntu-latest
-      outputs:
-        branch: ${{ steps.check_step.outputs.branch }}
       steps:
         - name: Checkout
           uses: actions/checkout@v2
@@ -24,16 +22,31 @@ jobs:
             raw=$(git branch -r --contains ${{ github.ref }})
             branch=${raw##*/}
             echo "::set-output name=branch::$branch"
-            echo "Branch is $branch."
-            branch_version=$(echo $branch | cut -d- -f2)
-            tag_version=$(echo ${{github.ref_name}} | cut -dv -f2)
+            echo "Branch is $branch."  
+            
+        - name: Get version from branch
+          id: branch_version_step
+          run: |
+            branch_version=$(echo ${{ steps.check_step.outputs.branch }} | cut -d- -f2)
             echo "::set-output name=branch_version::$branch_version"
-            echo "::set-output name=tag_version::$tag_version"
             echo "branch_version is $branch_version."
+            
+        - name: Get version from tag
+          id: tag_version_step
+          if: ${{ github.ref_type == 'tag' }}
+          run: |
+            tag_version=$(echo ${{ github.ref_name }} | cut -d- -f2)
+            echo "::set-output name=tag_version::$tag_version"
             echo "tag_version is $tag_version."
+            
+          # Verify branch name match version of tag pushed
+        - name: Verify params for submit build
+          if: ${{ github.ref_type == 'tag' }}
+          run: |
+            [[ $tag_version = $branch_version ]] && exit 0 || exit 1;
 
   log-github-info:
     runs-on: ubuntu-latest
     needs: check
     steps:
-      - run: echo ${{ needs.check.outputs.branch }} ${{ needs.check.outputs.branch_version }} ${{ needs.check.outputs.tag_version }}
+      - run: echo fuck
