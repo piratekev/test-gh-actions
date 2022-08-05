@@ -48,5 +48,18 @@ jobs:
   log-github-info:
     runs-on: ubuntu-latest
     needs: check
-    steps:
-      - run: echo fuck
+    steps:      
+      - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTag
+        with: 
+          tag: 'v1.0.1_7'
+
+      - run: echo ${{ steps.checkTag.outputs.exists }}
+      
+      
+      - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTagAgain
+        with: 
+          tag: 'v1.0.1_11'
+
+      - run: echo ${{ steps.checkTagAgain.outputs.exists }}
