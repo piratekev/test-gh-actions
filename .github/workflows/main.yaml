@@ -9,4 +9,4 @@ jobs:
   log-github-info:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event_name }}
+      - run: echo ${{ github.event }}
