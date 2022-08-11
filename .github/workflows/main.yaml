@@ -8,5 +8,6 @@ on:
 jobs:
   log-github-info:
     runs-on: ubuntu-latest
+    if: ${{ !github.event.created }}
     steps:
       - run: echo ${{ github.event.before }} ${{ github.event.after }} ${{ github.event.created }} ${{ github.event.commits }}
