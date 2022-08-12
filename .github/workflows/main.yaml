@@ -37,4 +37,4 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          cat example.txt
+          git status
