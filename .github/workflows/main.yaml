@@ -38,3 +38,6 @@ jobs:
           fetch-depth: 0
       - run: |
           git status
+          cat example.txt
+          git pull
+          cat example.txt
