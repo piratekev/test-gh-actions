@@ -2,12 +2,17 @@ name: Manually triggered workflow
 on:
   push:
     branches:
-      - 'release-*'
+      - '*'
 
 
 jobs:
   log-github-info:
     runs-on: ubuntu-latest
-    if: ${{ !github.event.created }}
     steps:
-      - run: echo ${{ github.event.before }} ${{ github.event.after }} ${{ github.event.created }} ${{ github.event.commits }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: |
+          sed -i 's/VERSION_NUMBER/1.0.3/' example.txt
+          cat example.txt
