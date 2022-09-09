@@ -6,6 +6,7 @@ on:
 
 
 jobs:
+
   log-github-info:
     runs-on: ubuntu-latest
     steps:
@@ -17,22 +18,12 @@ jobs:
       - name: set vars
         id: first_set
         run: |
+          prev_build_number=$( plutil -extract CFBundleVersion raw -o - ./Info.plist )
+          echo "prev build num is $prev_build_number"
           echo "::set-output name=build_number::2"
-          echo "::set-output name=prev_build_number::1"
-
-      - name: set vars again
-        id: second_set
-        run: |
-          echo "::set-output name=build_number::3"
-          echo "::set-output name=prev_build_number::2"
+          echo "::set-output name=prev_build_number::$prev_build_number"
       
       - name: first run
         run: |
           sed -i 's/<string>${{steps.first_set.outputs.prev_build_number}}<\/string>/<string>${{steps.first_set.outputs.build_number}}<\/string>/' Info.plist
           cat Info.plist
-
-      - name: second run
-        run: |
-          sed -i 's/<string>${{steps.second_set.outputs.prev_build_number}}<\/string>/<string>${{steps.second_set.outputs.build_number}}<\/string>/' Info.plist
-          cat Info.plist
-          
