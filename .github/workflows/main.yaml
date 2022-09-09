@@ -28,11 +28,11 @@ jobs:
       
       - name: first run
         run: |
-          sed -i 's/<string>${{steps.first_set.outputs.prev_build_number}}</string>/<string>${{steps.first_set.outputs.build_number}}</string>/' Info.plist
+          sed -i 's/<string>${{steps.first_set.outputs.prev_build_number}}<\/string>/<string>${{steps.first_set.outputs.build_number}}<\/string>/' Info.plist
           cat Info.plist
 
       - name: second run
         run: |
-          sed -i 's/<string>${{steps.second_set.outputs.prev_build_number}}</string>/<string>${{steps.second_set.outputs.build_number}}</string>/' Info.plist
+          sed -i 's/<string>${{steps.second_set.outputs.prev_build_number}}<\/string>/<string>${{steps.second_set.outputs.build_number}}<\/string>/' Info.plist
           cat Info.plist
           
