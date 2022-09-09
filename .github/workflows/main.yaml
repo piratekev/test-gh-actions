@@ -18,8 +18,8 @@ jobs:
       - name: set vars
         id: first_set
         run: |
-          plutil -extract CFBundleVersion raw -o - ./Info.plist
-          prev_build_number=$(plutil -extract CFBundleVersion raw -o - ./Info.plist)
+          plutil -extract CFBundleVersion -o - ./Info.plist
+          prev_build_number=$(plutil -extract CFBundleVersion -o - ./Info.plist)
           echo "prev build num is $prev_build_number"
           echo "::set-output name=build_number::2"
           echo "::set-output name=prev_build_number::$prev_build_number"
